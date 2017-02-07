@@ -147,11 +147,7 @@ namespace NadekoBot.Modules.NSFW
         [NadekoCommand, Usage, Description, Aliases]
         public Task Konachan([Remainder] string tag = null)
             => Searches.Searches.InternalDapiCommand(Context.Message, tag, Searches.Searches.DapiSearchType.Konachan);
-
-        [NadekoCommand, Usage, Description, Aliases]
-        public Task Rule34([Remainder] string tag = null)
-            => Searches.Searches.InternalDapiCommand(Context.Message, tag, Searches.Searches.DapiSearchType.Rule34);
-
+#endif
         [NadekoCommand, Usage, Description, Aliases]
         public async Task E621([Remainder] string tag = null)
         {
@@ -168,7 +164,11 @@ namespace NadekoBot.Modules.NSFW
                     .WithFooter(efb => efb.WithText("e621")))
                     .ConfigureAwait(false);
         }
-#endif
+
+        [NadekoCommand, Usage, Description, Aliases]
+        public Task Rule34([Remainder] string tag = null)
+            => Searches.Searches.InternalDapiCommand(Context.Message, tag, Searches.Searches.DapiSearchType.Rule34);
+
         [NadekoCommand, Usage, Description, Aliases]
         public async Task Danbooru([Remainder] string tag = null)
         {
@@ -253,8 +253,6 @@ namespace NadekoBot.Modules.NSFW
                 await Context.Channel.SendErrorAsync(ex.Message).ConfigureAwait(false);
             }
         }
-#if !GLOBAL_NADEKO
-
 
         public static Task<string> GetE621ImageLink(string tag) => Task.Run(async () =>
         {
@@ -278,6 +276,10 @@ namespace NadekoBot.Modules.NSFW
             }
         });
 
+        public static Task<string> GetRule34ImageLink(string tag) =>
+            Searches.Searches.InternalDapiSearch(tag, Searches.Searches.DapiSearchType.Rule34);
+
+#if !GLOBAL_NADEKO
         public static Task<string> GetYandereImageLink(string tag) =>
             Searches.Searches.InternalDapiSearch(tag, Searches.Searches.DapiSearchType.Yandere);
 
@@ -286,9 +288,6 @@ namespace NadekoBot.Modules.NSFW
 
         public static Task<string> GetGelbooruImageLink(string tag) =>
             Searches.Searches.InternalDapiSearch(tag, Searches.Searches.DapiSearchType.Gelbooru);
-
-        public static Task<string> GetRule34ImageLink(string tag) =>
-            Searches.Searches.InternalDapiSearch(tag, Searches.Searches.DapiSearchType.Rule34);
 #endif
     }
 }
