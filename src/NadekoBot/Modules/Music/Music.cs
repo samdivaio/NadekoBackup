@@ -14,8 +14,8 @@ using System.Net.Http;
 using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 using NadekoBot.Services.Database.Models;
-using System.Text.RegularExpressions;
-using System.Threading;
+//using System.Text.RegularExpressions;
+//using System.Threading;
 
 namespace NadekoBot.Modules.Music
 {
@@ -340,15 +340,28 @@ namespace NadekoBot.Modules.Music
                 await Context.Channel.SendErrorAsync($"🎵 Failed to find any songs.").ConfigureAwait(false);
                 return;
             }
-            var count = ids.Count();
+            //var count = ids.Count();
+
+            var idArray = ids as string[] ?? ids.ToArray();
+            var count = idArray.Length;
 
             var msg = await Context.Channel.SendMessageAsync($"🎵 Attempting to queue **{count}** songs".SnPl(count) + "...").ConfigureAwait(false);
 
-            var cancelSource = new CancellationTokenSource();
+            //var cancelSource = new CancellationTokenSource();
 
             var gusr = (IGuildUser)Context.User;
 
-            while (ids.Any() && !cancelSource.IsCancellationRequested)
+            foreach (var id in idArray)
+            {
+                try
+                {
+                    await QueueSong(gusr, (ITextChannel)Context.Channel, gusr.VoiceChannel, id, true).ConfigureAwait(false);
+                }
+                catch (SongNotFoundException) { }
+                catch { break; }
+            }
+
+            /*while (ids.Any() && !cancelSource.IsCancellationRequested)
             {
                 var tasks = Task.WhenAll(ids.Take(5).Select(async id =>
                 {
@@ -364,7 +377,7 @@ namespace NadekoBot.Modules.Music
 
                 await Task.WhenAny(tasks, Task.Delay(Timeout.Infinite, cancelSource.Token));
                 ids = ids.Skip(5);
-            }
+            }*/
 
             await msg.ModifyAsync(m => m.Content = "✅ Playlist queue complete.").ConfigureAwait(false);
         }
@@ -840,7 +853,7 @@ namespace NadekoBot.Modules.Music
                     try
                     {
                         if (lastFinishedMessage != null)
-                            lastFinishedMessage.DeleteAfter(0);
+                            lastFinishedMessage.DeleteAfter(10);
 
                         lastFinishedMessage = await mp.OutputTextChannel.EmbedAsync(new EmbedBuilder().WithOkColor()
                                                   .WithAuthor(eab => eab.WithName("Finished Song").WithMusicIcon())
@@ -848,7 +861,11 @@ namespace NadekoBot.Modules.Music
                                                   .WithFooter(ef => ef.WithText(song.PrettyInfo)))
                                                     .ConfigureAwait(false);
 
-                        if (mp.Autoplay && mp.Playlist.Count == 0 && song.SongInfo.ProviderType == MusicType.Normal)
+                        if (mp.Autoplay && mp.Playlist.Count == 0 && song.SongInfo.Provider == "YouTube")
+                        {
+                            await QueueSong(await queuer.Guild.GetCurrentUserAsync(), textCh, voiceCh, (await NadekoBot.Google.GetRelatedVideosAsync(song.SongInfo.Query, 4)).ToList().Shuffle().FirstOrDefault(), silent, musicType).ConfigureAwait(false);
+                        }
+                        /*if (mp.Autoplay && mp.Playlist.Count == 0 && song.SongInfo.ProviderType == MusicType.Normal)
                         {
                             var relatedVideos = (await NadekoBot.Google.GetRelatedVideosAsync(song.SongInfo.Query, 4)).ToList();
                             if(relatedVideos.Count > 0)
@@ -858,7 +875,7 @@ namespace NadekoBot.Modules.Music
                                 relatedVideos[new NadekoRandom().Next(0, relatedVideos.Count)],
                                 silent, 
                                 musicType).ConfigureAwait(false);
-                        }
+                        }*/
                     }
                     catch { }
                 };

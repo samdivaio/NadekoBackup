@@ -67,7 +67,7 @@ namespace NadekoBot.Modules.Music.Classes
         public float Volume { get; private set; }
 
         public event Action<MusicPlayer, Song> OnCompleted = delegate { };
-        public event Action<MusicPlayer, Song> OnStarted = delegate {  };
+        public event Action<MusicPlayer, Song> OnStarted = delegate { };
         public event Action<bool> OnPauseChanged = delegate { };
 
         public IVoiceChannel PlaybackVoiceChannel { get; private set; }
@@ -152,11 +152,12 @@ namespace NadekoBot.Modules.Music.Classes
                         {
                             await CurrentSong.Play(audioClient, cancelToken);
                         }
-                        catch(OperationCanceledException)
+                        //catch(OperationCanceledException)
+                        catch (OperationCanceledException)
                         {
+                            await Task.Delay(1000).ConfigureAwait(false);
                             OnCompleted(this, CurrentSong);
                         }
-                        
 
                         if (RepeatPlaylist)
                             AddSong(CurrentSong, CurrentSong.QueuerName);
@@ -224,6 +225,10 @@ namespace NadekoBot.Modules.Music.Classes
 
         private Song GetNextSong()
         {
+            if (!cancelToken.IsCancellationRequested)
+            {
+                SongCancelSource.Cancel();
+            }
             if (!FairPlay)
             {
                 return playlist.FirstOrDefault();
