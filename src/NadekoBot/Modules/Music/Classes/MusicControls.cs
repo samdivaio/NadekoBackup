@@ -152,7 +152,6 @@ namespace NadekoBot.Modules.Music.Classes
                         {
                             await CurrentSong.Play(audioClient, cancelToken);
                         }
-                        //catch(OperationCanceledException)
                         catch (OperationCanceledException)
                         {
                             await Task.Delay(1000).ConfigureAwait(false);
@@ -225,10 +224,6 @@ namespace NadekoBot.Modules.Music.Classes
 
         private Song GetNextSong()
         {
-            if (!cancelToken.IsCancellationRequested)
-            {
-                SongCancelSource.Cancel();
-            }
             if (!FairPlay)
             {
                 return playlist.FirstOrDefault();
