@@ -14,7 +14,6 @@ using System.Net.Http;
 using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 using NadekoBot.Services.Database.Models;
-//using System.Text.RegularExpressions;
 using System.Threading;
 
 namespace NadekoBot.Modules.Music
@@ -342,24 +341,11 @@ namespace NadekoBot.Modules.Music
             }
             var count = ids.Count();
 
-            //var idArray = ids as string[] ?? ids.ToArray();
-            //var count = idArray.Length;
-
             var msg = await Context.Channel.SendMessageAsync($"🎵 Attempting to queue **{count}** songs".SnPl(count) + "...").ConfigureAwait(false);
 
             var cancelSource = new CancellationTokenSource();
 
             var gusr = (IGuildUser)Context.User;
-
-            /*foreach (var id in idArray)
-            {
-                try
-                {
-                    await QueueSong(gusr, (ITextChannel)Context.Channel, gusr.VoiceChannel, id, true).ConfigureAwait(false);
-                }
-                catch (SongNotFoundException) { }
-                catch { break; }
-            }*/
 
             while (ids.Any() && !cancelSource.IsCancellationRequested)
             {
@@ -869,6 +855,10 @@ namespace NadekoBot.Modules.Music
                                 relatedVideos[new NadekoRandom().Next(0, relatedVideos.Count)],
                                 true,
                                 musicType).ConfigureAwait(false);
+                        }
+                        else
+                        {
+                            mp.DestroyOnComplete();
                         }
                     }
                     catch { }

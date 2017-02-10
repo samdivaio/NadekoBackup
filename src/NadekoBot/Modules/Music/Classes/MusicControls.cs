@@ -352,6 +352,13 @@ namespace NadekoBot.Modules.Music.Classes
                     SongCancelSource.Cancel();
             });
         }
+        public void DestroyOnComplete()
+        {
+            actionQueue.Enqueue(async () =>
+            {
+                try { await audioClient.DisconnectAsync(); } catch { }
+            });
+        }
 
         //public async Task MoveToVoiceChannel(IVoiceChannel voiceChannel)
         //{
