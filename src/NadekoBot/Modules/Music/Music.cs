@@ -853,7 +853,7 @@ namespace NadekoBot.Modules.Music
                     try
                     {
                         if (lastFinishedMessage != null)
-                            lastFinishedMessage.DeleteAfter(10);
+                            lastFinishedMessage.DeleteAfter(0);
 
                         lastFinishedMessage = await mp.OutputTextChannel.EmbedAsync(new EmbedBuilder().WithOkColor()
                                                   .WithAuthor(eab => eab.WithName("Finished Song").WithMusicIcon())

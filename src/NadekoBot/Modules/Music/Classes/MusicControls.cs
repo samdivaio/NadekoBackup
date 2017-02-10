@@ -151,14 +151,14 @@ namespace NadekoBot.Modules.Music.Classes
                         await CurrentSong.Play(audioClient, cancelToken);
 
                         OnCompleted(this, CurrentSong);
-                        /*try
+                        try
                         {
                             await CurrentSong.Play(audioClient, cancelToken);
                         }
                         catch (OperationCanceledException)
                         {
                             OnCompleted(this, CurrentSong);
-                        }*/
+                        }
 
                         if (RepeatPlaylist)
                             AddSong(CurrentSong, CurrentSong.QueuerName);
