@@ -111,6 +111,7 @@ namespace NadekoBot.Modules.Music
             {
                 musicPlayer.Autoplay = false;
                 musicPlayer.Stop();
+                musicPlayer.DestroyOnComplete();
             }
             return Task.CompletedTask;
         }
@@ -856,7 +857,7 @@ namespace NadekoBot.Modules.Music
                                 true,
                                 musicType).ConfigureAwait(false);
                         }
-                        else
+                        else if (mp.Playlist.Count == 0)
                         {
                             mp.DestroyOnComplete();
                         }
