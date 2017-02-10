@@ -859,7 +859,12 @@ namespace NadekoBot.Modules.Music
                                                   .WithDescription(song.PrettyName)
                                                   .WithFooter(ef => ef.WithText(song.PrettyInfo)))
                                                     .ConfigureAwait(false);
-                        if (mp.Autoplay && mp.Playlist.Count == 0 && song.SongInfo.ProviderType == MusicType.Normal)
+
+                        if (mp.Autoplay && mp.Playlist.Count == 0 && song.SongInfo.Provider == "YouTube")
+                        {
+                            await QueueSong(await queuer.Guild.GetCurrentUserAsync(), textCh, voiceCh, (await NadekoBot.Google.GetRelatedVideosAsync(song.SongInfo.Query, 4)).ToList().Shuffle().FirstOrDefault(), silent, musicType).ConfigureAwait(false);
+                        }
+                        /*if (mp.Autoplay && mp.Playlist.Count == 0 && song.SongInfo.ProviderType == MusicType.Normal)
                         {
                             var relatedVideos = (await NadekoBot.Google.GetRelatedVideosAsync(song.SongInfo.Query, 4)).ToList();
                             if(relatedVideos.Count > 0)
@@ -869,7 +874,7 @@ namespace NadekoBot.Modules.Music
                                 relatedVideos[new NadekoRandom().Next(0, relatedVideos.Count)],
                                 true,
                                 musicType).ConfigureAwait(false);
-                        }
+                        }*/
                     }
                     catch { }
                 };
