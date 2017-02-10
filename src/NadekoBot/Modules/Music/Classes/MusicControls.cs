@@ -154,7 +154,14 @@ namespace NadekoBot.Modules.Music.Classes
                         }
                         catch (OperationCanceledException)
                         {
-                            await Task.Delay(1000).ConfigureAwait(false);
+                            if (!cancelToken.IsCancellationRequested)
+                            {
+                                SongCancelSource.Cancel();
+                            }
+                            SongCancelSource = new CancellationTokenSource();
+                            cancelToken = SongCancelSource.Token;
+                            CurrentSong = null;
+                            await Task.Delay(300).ConfigureAwait(false);
                             OnCompleted(this, CurrentSong);
                         }
 
