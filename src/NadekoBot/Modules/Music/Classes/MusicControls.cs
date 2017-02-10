@@ -151,14 +151,14 @@ namespace NadekoBot.Modules.Music.Classes
                         await CurrentSong.Play(audioClient, cancelToken);
 
                         OnCompleted(this, CurrentSong);
-                        try
+                        /*try
                         {
                             await CurrentSong.Play(audioClient, cancelToken);
                         }
                         catch (OperationCanceledException)
                         {
                             OnCompleted(this, CurrentSong);
-                        }
+                        }*/
 
                         if (RepeatPlaylist)
                             AddSong(CurrentSong, CurrentSong.QueuerName);
@@ -167,6 +167,7 @@ namespace NadekoBot.Modules.Music.Classes
                             AddSong(CurrentSong, 0);
 
                     }
+                    catch (OperationCanceledException) { }
                     catch (Exception ex)
                     {
                         Console.WriteLine("Music thread almost crashed.");
@@ -206,7 +207,7 @@ namespace NadekoBot.Modules.Music.Classes
                 RepeatPlaylist = false;
                 RepeatSong = false;
                 playlist.Clear();
-                //if (!SongCancelSource.IsCancellationRequested)
+                if (!SongCancelSource.IsCancellationRequested)
                     SongCancelSource.Cancel();
             });
         }
