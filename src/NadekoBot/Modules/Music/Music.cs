@@ -873,7 +873,6 @@ namespace NadekoBot.Modules.Music
                                 textCh, 
                                 voiceCh, 
                                 relatedVideos[new NadekoRandom().Next(0, relatedVideos.Count)],
-                                silent, 
                                 musicType).ConfigureAwait(false);
                         }
                     }
