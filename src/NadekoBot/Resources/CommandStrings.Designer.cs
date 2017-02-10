@@ -906,7 +906,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Bets a certain amount of currency and rolls a dice. Rolling over 66 yields x2 of your currency, over 90 - x3 and 100 x10..
+        ///    Looks up a localized string similar to Bets a certain amount of currency and rolls a dice. Rolling over 66 yields x2 of your currency, over 90 - x4 and 100 x10..
         /// </summary>
         public static string betroll_desc {
             get {
@@ -1041,7 +1041,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Sets a new leave announcement message. Type %user% if you want to show the name the user who left. Type %id% to show id. Using this command with no message will show the current bye message..
+        ///    Looks up a localized string similar to Sets a new leave announcement message. Type %user% if you want to show the name the user who left. Type %id% to show id. Using this command with no message will show the current bye message. You can use embed json from &lt;http://nadekobot.xyz/embedbuilder/&gt; instead of a regular text, if you want the message to be embedded..
         /// </summary>
         public static string byemsg_desc {
             get {
@@ -3066,7 +3066,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Sets a new join announcement message which will be sent to the user who joined. Type %user% if you want to mention the new member. Using it with no message will show the current DM greet message..
+        ///    Looks up a localized string similar to Sets a new join announcement message which will be sent to the user who joined. Type %user% if you want to mention the new member. Using it with no message will show the current DM greet message. You can use embed json from &lt;http://nadekobot.xyz/embedbuilder/&gt; instead of a regular text, if you want the message to be embedded..
         /// </summary>
         public static string greetdmmsg_desc {
             get {
@@ -3093,7 +3093,7 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Sets a new join announcement message which will be shown in the server&apos;s channel. Type %user% if you want to mention the new member. Using it with no message will show the current greet message..
+        ///    Looks up a localized string similar to Sets a new join announcement message which will be shown in the server&apos;s channel. Type %user% if you want to mention the new member. Using it with no message will show the current greet message. You can use embed json from &lt;http://nadekobot.xyz/embedbuilder/&gt; instead of a regular text, if you want the message to be embedded..
         /// </summary>
         public static string greetmsg_desc {
             get {
@@ -7053,6 +7053,33 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to shardid.
+        /// </summary>
+        public static string shardid_cmd {
+            get {
+                return ResourceManager.GetString("shardid_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Shows which shard is a certain guild on, by guildid..
+        /// </summary>
+        public static string shardid_desc {
+            get {
+                return ResourceManager.GetString("shardid_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}shardid 117523346618318850`.
+        /// </summary>
+        public static string shardid_usage {
+            get {
+                return ResourceManager.GetString("shardid_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to shardstats.
         /// </summary>
         public static string shardstats_cmd {
@@ -7697,6 +7724,33 @@ namespace NadekoBot.Resources {
         public static string tesar_usage {
             get {
                 return ResourceManager.GetString("tesar_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to tictactoe ttt.
+        /// </summary>
+        public static string tictactoe_cmd {
+            get {
+                return ResourceManager.GetString("tictactoe_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Starts a game of tic tac toe. Another user must run the command in the same channel in order to accept the challenge. Use numbers 1-9 to play. 15 seconds per move..
+        /// </summary>
+        public static string tictactoe_desc {
+            get {
+                return ResourceManager.GetString("tictactoe_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to &gt;ttt.
+        /// </summary>
+        public static string tictactoe_usage {
+            get {
+                return ResourceManager.GetString("tictactoe_usage", resourceCulture);
             }
         }
         
