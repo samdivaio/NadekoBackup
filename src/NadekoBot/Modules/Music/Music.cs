@@ -98,6 +98,13 @@ namespace NadekoBot.Modules.Music
                 }
                 musicPlayer.Next();
             }
+            if (musicPlayer.Playlist.Count == 0)
+            {
+                if (!MusicPlayers.TryGetValue(Context.Guild.Id, out musicPlayer)) return Task.CompletedTask;
+                if (((IGuildUser)Context.User).VoiceChannel == musicPlayer.PlaybackVoiceChannel)
+                    if (MusicPlayers.TryRemove(Context.Guild.Id, out musicPlayer))
+                        musicPlayer.Destroy();
+            }
             return Task.CompletedTask;
         }
 
@@ -108,11 +115,13 @@ namespace NadekoBot.Modules.Music
             MusicPlayer musicPlayer;
             if (!MusicPlayers.TryGetValue(Context.Guild.Id, out musicPlayer)) return Task.CompletedTask;
             if (((IGuildUser)Context.User).VoiceChannel == musicPlayer.PlaybackVoiceChannel)
+                if (MusicPlayers.TryRemove(Context.Guild.Id, out musicPlayer))
+                    musicPlayer.Destroy();
+            /*if (((IGuildUser)Context.User).VoiceChannel == musicPlayer.PlaybackVoiceChannel)
             {
                 musicPlayer.Autoplay = false;
                 musicPlayer.Stop();
-                musicPlayer.DestroyOnComplete();
-            }
+            }*/
             return Task.CompletedTask;
         }
 
@@ -859,7 +868,7 @@ namespace NadekoBot.Modules.Music
                         }
                         else if (mp.Playlist.Count == 0)
                         {
-                            mp.DestroyOnComplete();
+                            mp.Destroy();
                         }
                     }
                     catch { }

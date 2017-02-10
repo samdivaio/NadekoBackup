@@ -146,14 +146,11 @@ namespace NadekoBot.Modules.Music.Classes
                         var index = playlist.IndexOf(CurrentSong);
                         if (index != -1)
                             RemoveSongAt(index, true);
-
-                        OnStarted(this, CurrentSong);
+                        if (audioClient?.ConnectionState != ConnectionState.Connected)
                         {
-                            if (audioClient?.ConnectionState != ConnectionState.Connected)
-                            {
-                                audioClient = await PlaybackVoiceChannel.ConnectAsync().ConfigureAwait(false);
-                            }
+                            audioClient = await PlaybackVoiceChannel.ConnectAsync().ConfigureAwait(false);
                         }
+                        OnStarted(this, CurrentSong);
                         await CurrentSong.Play(audioClient, cancelToken);
 
                         OnCompleted(this, CurrentSong);
@@ -358,17 +355,6 @@ namespace NadekoBot.Modules.Music.Classes
                     SongCancelSource.Cancel();
             });
         }
-        public void DestroyOnComplete()
-        {
-            actionQueue.Enqueue(async () =>
-            {
-                Destroyed = true;
-                try { await audioClient.DisconnectAsync(); } catch { }
-                if (!SongCancelSource.IsCancellationRequested)
-                    SongCancelSource.Cancel();
-            });
-        }
-
         //public async Task MoveToVoiceChannel(IVoiceChannel voiceChannel)
         //{
         //    if (audioClient?.ConnectionState != ConnectionState.Connected)
