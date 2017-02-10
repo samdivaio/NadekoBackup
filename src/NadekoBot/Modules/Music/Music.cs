@@ -554,8 +554,7 @@ namespace NadekoBot.Modules.Music
             playlist.RemoveAt(nn1);
 
             var embed = new EmbedBuilder()
-                .WithTitle($"{s.SongInfo.Title.TrimTo(70)}")
-            .WithUrl($"{s.SongInfo.Query}")
+                .WithDescription(s.PrettyName)
             .WithAuthor(eab => eab.WithName("Song Moved").WithIconUrl("https://cdn.discordapp.com/attachments/155726317222887425/258605269972549642/music1.png"))
             .AddField(fb => fb.WithName("**From Position**").WithValue($"#{n1}").WithIsInline(true))
             .AddField(fb => fb.WithName("**To Position**").WithValue($"#{n2}").WithIsInline(true))
@@ -860,11 +859,6 @@ namespace NadekoBot.Modules.Music
                                                   .WithDescription(song.PrettyName)
                                                   .WithFooter(ef => ef.WithText(song.PrettyInfo)))
                                                     .ConfigureAwait(false);
-
-                        /*if (mp.Autoplay && mp.Playlist.Count == 0 && song.SongInfo.Provider == "YouTube")
-                        {
-                            await QueueSong(await queuer.Guild.GetCurrentUserAsync(), textCh, voiceCh, (await NadekoBot.Google.GetRelatedVideosAsync(song.SongInfo.Query, 4)).ToList().Shuffle().FirstOrDefault(), silent, musicType).ConfigureAwait(false);
-                        }*/
                         if (mp.Autoplay && mp.Playlist.Count == 0 && song.SongInfo.ProviderType == MusicType.Normal)
                         {
                             var relatedVideos = (await NadekoBot.Google.GetRelatedVideosAsync(song.SongInfo.Query, 4)).ToList();
@@ -873,6 +867,7 @@ namespace NadekoBot.Modules.Music
                                 textCh, 
                                 voiceCh, 
                                 relatedVideos[new NadekoRandom().Next(0, relatedVideos.Count)],
+                                true,
                                 musicType).ConfigureAwait(false);
                         }
                     }
