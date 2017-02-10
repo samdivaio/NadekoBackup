@@ -154,14 +154,6 @@ namespace NadekoBot.Modules.Music.Classes
                         }
                         catch (OperationCanceledException)
                         {
-                            if (!cancelToken.IsCancellationRequested)
-                            {
-                                SongCancelSource.Cancel();
-                            }
-                            SongCancelSource = new CancellationTokenSource();
-                            cancelToken = SongCancelSource.Token;
-                            CurrentSong = null;
-                            await Task.Delay(300).ConfigureAwait(false);
                             OnCompleted(this, CurrentSong);
                         }
 
@@ -211,7 +203,7 @@ namespace NadekoBot.Modules.Music.Classes
                 RepeatPlaylist = false;
                 RepeatSong = false;
                 playlist.Clear();
-                if (!SongCancelSource.IsCancellationRequested)
+                //if (!SongCancelSource.IsCancellationRequested)
                     SongCancelSource.Cancel();
             });
         }
