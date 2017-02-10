@@ -151,10 +151,11 @@ namespace NadekoBot.Modules.Music.Classes
                         try
                         {
                             await CurrentSong.Play(audioClient, cancelToken);
+                            OnCompleted(this, CurrentSong);
                         }
                         catch (OperationCanceledException)
                         {
-                            OnCompleted(this, CurrentSong);
+                            //OnCompleted(this, CurrentSong);
                         }
 
                         if (RepeatPlaylist)
@@ -172,7 +173,7 @@ namespace NadekoBot.Modules.Music.Classes
                     }
                     finally
                     {
-                        //if (!cancelToken.IsCancellationRequested)
+                        if (!cancelToken.IsCancellationRequested)
                         {
                             SongCancelSource.Cancel();
                         }
