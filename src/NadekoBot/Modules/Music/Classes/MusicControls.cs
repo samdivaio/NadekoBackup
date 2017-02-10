@@ -172,7 +172,7 @@ namespace NadekoBot.Modules.Music.Classes
                     }
                     finally
                     {
-                        if (!cancelToken.IsCancellationRequested)
+                        //if (!cancelToken.IsCancellationRequested)
                         {
                             SongCancelSource.Cancel();
                         }
