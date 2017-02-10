@@ -377,6 +377,7 @@ namespace NadekoBot.Modules.Music
 
                 await Task.WhenAny(tasks, Task.Delay(Timeout.Infinite, cancelSource.Token));
                 ids = ids.Skip(5);
+                await msg.ModifyAsync(m => m.Content = $"🎵 Queued **{count}** songs".SnPl(count) + "so far...").ConfigureAwait(false);
             }
 
             await msg.ModifyAsync(m => m.Content = "✅ Playlist queue complete.").ConfigureAwait(false);
