@@ -120,11 +120,11 @@ Check the guides for your platform on how to setup ffmpeg correctly:
                        try
                        {
                            p.Kill();
+                           Console.ForegroundColor = ConsoleColor.Cyan;
+                           Console.WriteLine($"Buffering process done.");
                        }
                        catch { }
                        p.Dispose();
-                       Console.ForegroundColor = ConsoleColor.Cyan;
-                       Console.WriteLine($"Buffering process done.");
                    }
                }
            });
