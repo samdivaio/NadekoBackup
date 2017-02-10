@@ -866,10 +866,10 @@ namespace NadekoBot.Modules.Music
                                 true,
                                 musicType).ConfigureAwait(false);
                         }
-                        else if (mp.Playlist.Count == 0)
-                        {
-                            mp.Destroy();
-                        }
+                        //else if (mp.Playlist.Count == 0)
+                        //{
+                                    ///musicPlayer.Destroy(); ///need to destroy like stop and next.
+                        //}
                     }
                     catch { }
                 };
