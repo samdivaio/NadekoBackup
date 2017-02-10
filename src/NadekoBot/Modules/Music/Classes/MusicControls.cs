@@ -67,7 +67,7 @@ namespace NadekoBot.Modules.Music.Classes
         public float Volume { get; private set; }
 
         public event Action<MusicPlayer, Song> OnCompleted = delegate { };
-        public event Action<MusicPlayer, Song> OnStarted = delegate {  };
+        public event Action<MusicPlayer, Song> OnStarted = delegate { };
         public event Action<bool> OnPauseChanged = delegate { };
 
         public IVoiceChannel PlaybackVoiceChannel { get; private set; }
@@ -146,17 +146,18 @@ namespace NadekoBot.Modules.Music.Classes
                         var index = playlist.IndexOf(CurrentSong);
                         if (index != -1)
                             RemoveSongAt(index, true);
-
                         OnStarted(this, CurrentSong);
-                        try
+                        await CurrentSong.Play(audioClient, cancelToken);
+
+                        OnCompleted(this, CurrentSong);
+                        /*try
                         {
                             await CurrentSong.Play(audioClient, cancelToken);
                         }
                         catch(OperationCanceledException)
                         {
                             OnCompleted(this, CurrentSong);
-                        }
-                        
+                        }*/
 
                         if (RepeatPlaylist)
                             AddSong(CurrentSong, CurrentSong.QueuerName);
@@ -165,6 +166,7 @@ namespace NadekoBot.Modules.Music.Classes
                             AddSong(CurrentSong, 0);
 
                     }
+                    catch (OperationCanceledException) { }
                     catch (Exception ex)
                     {
                         Console.WriteLine("Music thread almost crashed.");
@@ -349,7 +351,6 @@ namespace NadekoBot.Modules.Music.Classes
                     SongCancelSource.Cancel();
             });
         }
-
         //public async Task MoveToVoiceChannel(IVoiceChannel voiceChannel)
         //{
         //    if (audioClient?.ConnectionState != ConnectionState.Connected)
