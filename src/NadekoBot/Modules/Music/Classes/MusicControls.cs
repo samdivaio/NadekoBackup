@@ -356,7 +356,10 @@ namespace NadekoBot.Modules.Music.Classes
         {
             actionQueue.Enqueue(async () =>
             {
+                Destroyed = true;
                 try { await audioClient.DisconnectAsync(); } catch { }
+                if (!SongCancelSource.IsCancellationRequested)
+                    SongCancelSource.Cancel();
             });
         }
 
