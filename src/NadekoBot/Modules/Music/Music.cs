@@ -909,6 +909,10 @@ namespace NadekoBot.Modules.Music
                                     if (MusicPlayers.TryRemove(textCh.Guild.Id, out mp))
                                         mp.Destroy();
                                 }
+                                else
+                                {
+                                    return;
+                                }
                             }
                         }
 
