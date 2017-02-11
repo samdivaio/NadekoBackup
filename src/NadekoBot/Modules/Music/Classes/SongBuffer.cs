@@ -57,7 +57,7 @@ namespace NadekoBot.Modules.Music.Classes
                    {
                        FileName = "ffmpeg",
                        Arguments = $"-ss {SkipTo} -i {SongInfo.Uri} -f s16le -ar 48000 -vn -ac 2 pipe:1 -loglevel quiet",
-                       UseShellExecute = true,
+                       UseShellExecute = false,
                        RedirectStandardOutput = true,
                        RedirectStandardError = false,
                        CreateNoWindow = true,
