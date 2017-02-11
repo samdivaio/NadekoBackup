@@ -904,11 +904,11 @@ namespace NadekoBot.Modules.Music
                                 msg.DeleteAfter(10);
                             try
                             {
-                                await Task.Delay(900000).ConfigureAwait(false);
+                                await Task.Delay(20000).ConfigureAwait(false);
                                 if (mp.Paused)
                                 {
                                     if (MusicPlayers.TryRemove(textCh.Guild.Id, out mp))
-                                        mp.Destroy();
+                                        mp.DestroyOnPause();
                                     await mp.OutputTextChannel.SendConfirmAsync("🎵 Left voice channel due to inactivity.").ConfigureAwait(false);
                                 }
                             } catch { }
