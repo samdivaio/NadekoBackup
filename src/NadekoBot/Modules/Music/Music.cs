@@ -903,11 +903,13 @@ namespace NadekoBot.Modules.Music
                         {
                             try
                             {
-                                if (msg2 != null)
-                                await msg2.DeleteAsync().ConfigureAwait(false);
+                                msg2.DeleteAfter(0);
 
-                            msg1 = await mp.OutputTextChannel.SendConfirmAsync("🎵 Music playback **paused**.").ConfigureAwait(false);
-                            await Task.Delay(20000).ConfigureAwait(false);
+                                msg1 = await mp.OutputTextChannel.SendConfirmAsync("🎵 Music playback **paused**.").ConfigureAwait(false);
+                                if (msg2 != null)
+                                    msg2.DeleteAfter(0);
+
+                                await Task.Delay(20000).ConfigureAwait(false);
 
                                 try
                                 {
@@ -925,10 +927,10 @@ namespace NadekoBot.Modules.Music
                         {
                             try
                             {
-                                if (msg1 != null)
-                                await msg1.DeleteAsync().ConfigureAwait(false);
-
+                                msg1.DeleteAfter(0);
                                 msg2 = await mp.OutputTextChannel.SendConfirmAsync("🎵 Music playback **resumed**.").ConfigureAwait(false);
+                                if (msg1 != null)
+                                    msg1.DeleteAfter(0);
                             } catch { }
                         }
                         //if (msg2 != null)
