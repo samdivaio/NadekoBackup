@@ -73,7 +73,7 @@ namespace NadekoBot.Modules.Music
                 {
                     player.TogglePause();
                     Task.Delay(10000).ConfigureAwait(false);
-                    if (newState.VoiceChannel.Users.Count == 1)
+                    if (oldState.VoiceChannel.Users.Count == 1)
                     {
                         if (MusicPlayers.TryRemove(usr.Guild.Id, out player))
                             player.Destroy();
