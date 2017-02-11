@@ -897,45 +897,26 @@ namespace NadekoBot.Modules.Music
                 {
                     try
                     {
-                        IUserMessage msg1 = null;
-                        IUserMessage msg2 = null;
+                        IUserMessage msg;
                         if (paused)
                         {
+                                msg = await mp.OutputTextChannel.SendMessageAsync("🎵 Music playback **paused**.").ConfigureAwait(false);
+                            await Task.Delay(20000).ConfigureAwait(false);
                             try
                             {
-                                msg2.DeleteAfter(0);
-
-                                msg1 = await mp.OutputTextChannel.SendMessageAsync("🎵 Music playback **paused**.").ConfigureAwait(false);
-                                if (msg2 != null)
-                                    msg2.DeleteAfter(0);
-
-                                await Task.Delay(20000).ConfigureAwait(false);
-
-                                try
+                                if (mp.Paused)
                                 {
-                                    if (msg1 != null)
-                                    {
-                                        if (MusicPlayers.TryRemove(textCh.Guild.Id, out mp))
-                                            mp.Destroy(); ///auto leave no one is listening to music.
-                                        await mp.OutputTextChannel.SendMessageAsync("🎵 Left voice channel due to **inactivity**.").ConfigureAwait(false);
-                                    }
-                                } catch { }
+                                    if (MusicPlayers.TryRemove(textCh.Guild.Id, out mp))
+                                        mp.Destroy();
+                                }
                             } catch { }
                         }
-
                         else
                         {
-                            try
-                            {
-                                msg1.DeleteAfter(0);
-                                msg2 = await mp.OutputTextChannel.SendMessageAsync("🎵 Music playback **resumed**.").ConfigureAwait(false);
-                                if (msg1 != null)
-                                    msg1.DeleteAfter(0);
-                            } catch { }
+                                msg = await mp.OutputTextChannel.SendMessageAsync("🎵 Music playback **resumed**.").ConfigureAwait(false);
                         }
-                        //if (msg2 != null)
-                            //msg2.DeleteAfter(10);
-                        
+                        if (msg != null)
+                            msg.DeleteAfter(10);
                     }
                     catch { }
                 };
