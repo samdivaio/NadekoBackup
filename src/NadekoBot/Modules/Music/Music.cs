@@ -905,7 +905,7 @@ namespace NadekoBot.Modules.Music
                             {
                                 msg2.DeleteAfter(0);
 
-                                msg1 = await mp.OutputTextChannel.SendConfirmAsync("🎵 Music playback **paused**.").ConfigureAwait(false);
+                                msg1 = await mp.OutputTextChannel.SendMessageAsync("🎵 Music playback **paused**.").ConfigureAwait(false);
                                 if (msg2 != null)
                                     msg2.DeleteAfter(0);
 
@@ -917,7 +917,7 @@ namespace NadekoBot.Modules.Music
                                     {
                                         if (MusicPlayers.TryRemove(textCh.Guild.Id, out mp))
                                             mp.Destroy(); ///auto leave no one is listening to music.
-                                        await mp.OutputTextChannel.SendConfirmAsync("🎵 Left voice channel due to **inactivity**.").ConfigureAwait(false);
+                                        await mp.OutputTextChannel.SendMessageAsync("🎵 Left voice channel due to **inactivity**.").ConfigureAwait(false);
                                     }
                                 } catch { }
                             } catch { }
@@ -928,7 +928,7 @@ namespace NadekoBot.Modules.Music
                             try
                             {
                                 msg1.DeleteAfter(0);
-                                msg2 = await mp.OutputTextChannel.SendConfirmAsync("🎵 Music playback **resumed**.").ConfigureAwait(false);
+                                msg2 = await mp.OutputTextChannel.SendMessageAsync("🎵 Music playback **resumed**.").ConfigureAwait(false);
                                 if (msg1 != null)
                                     msg1.DeleteAfter(0);
                             } catch { }
