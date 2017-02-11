@@ -46,7 +46,6 @@ namespace NadekoBot.Modules.Music
             MusicPlayer player;
             if (!MusicPlayers.TryGetValue(usr.Guild.Id, out player))
                 return Task.CompletedTask;
-
             try
             {
 
@@ -866,10 +865,11 @@ namespace NadekoBot.Modules.Music
                                 true,
                                 musicType).ConfigureAwait(false);
                         }
-                        //else if (mp.Playlist.Count == 0)
-                        //{
-                                    ///musicPlayer.Destroy(); ///need to destroy like stop and next.
-                        //}
+                        else if (mp.Playlist.Count == 0)
+                        {
+                                if (MusicPlayers.TryRemove(textCh.Guild.Id, out mp))
+                                    mp.Destroy(); ///need to destroy like stop and next.
+                        }
                     }
                     catch { }
                 };
@@ -899,10 +899,24 @@ namespace NadekoBot.Modules.Music
                     {
                         IUserMessage msg;
                         if (paused)
-                            msg = await mp.OutputTextChannel.SendConfirmAsync("🎵 Music playback **paused**.").ConfigureAwait(false);
+                        {
+                                msg = await mp.OutputTextChannel.SendConfirmAsync("🎵 Music playback **paused**.").ConfigureAwait(false);
+                                msg.DeleteAfter(10);
+                            try
+                            {
+                                await Task.Delay(900000).ConfigureAwait(false);
+                                if (mp.Paused)
+                                {
+                                    if (MusicPlayers.TryRemove(textCh.Guild.Id, out mp))
+                                        mp.Destroy();
+                                    await mp.OutputTextChannel.SendConfirmAsync("🎵 Left voice channel due to inactivity.").ConfigureAwait(false);
+                                }
+                            } catch { }
+                        }
                         else
-                            msg = await mp.OutputTextChannel.SendConfirmAsync("🎵 Music playback **resumed**.").ConfigureAwait(false);
-
+                        {
+                                msg = await mp.OutputTextChannel.SendConfirmAsync("🎵 Music playback **resumed**.").ConfigureAwait(false);
+                        }
                         if (msg != null)
                             msg.DeleteAfter(10);
                     }
