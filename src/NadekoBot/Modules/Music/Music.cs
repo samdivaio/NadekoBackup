@@ -46,7 +46,6 @@ namespace NadekoBot.Modules.Music
             MusicPlayer player;
             if (!MusicPlayers.TryGetValue(usr.Guild.Id, out player))
                 return Task.CompletedTask;
-
             try
             {
 
@@ -73,6 +72,13 @@ namespace NadekoBot.Modules.Music
                         oldState.VoiceChannel.Users.Count == 1))
                 {
                     player.TogglePause();
+                    Task.Delay(10000).ConfigureAwait(false);
+                    if (newState.VoiceChannel.Users.Count == 1)
+                    {
+                        if (MusicPlayers.TryRemove(usr.Guild.Id, out player))
+                            player.Destroy();
+                        player.OutputTextChannel.SendConfirmAsync("🎵 Left voice channel due to **inactivity**.").ConfigureAwait(false);
+                    }
                     return Task.CompletedTask;
                 }
 
@@ -902,19 +908,6 @@ namespace NadekoBot.Modules.Music
                         if (paused)
                         {
                             msg = await mp.OutputTextChannel.SendConfirmAsync("🎵 Music playback **paused**.").ConfigureAwait(false);
-                            {
-                                await Task.Delay(3000).ConfigureAwait(false);
-                                if (paused)
-                                {
-                                    if (MusicPlayers.TryRemove(textCh.Guild.Id, out mp))
-                                        mp.Destroy();
-                                    await mp.OutputTextChannel.SendConfirmAsync("🎵 Left voice channel due to **inactivity**.").ConfigureAwait(false);
-                                }
-                                else
-                                {
-                                    return;
-                                }
-                            }
                         }
 
                         else
