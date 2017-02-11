@@ -56,7 +56,7 @@ namespace NadekoBot.Modules.Music.Classes
                    p = Process.Start(new ProcessStartInfo
                    {
                        FileName = "ffmpeg",
-                       Arguments = $"-ss {SkipTo} -i {SongInfo.Uri} -f s16le -ar 48000 -vn -ac 2 pipe:1 -loglevel quiet",
+                       Arguments = $"-ss {SkipTo} -i {SongInfo.Uri} -f s16le -ar 48000 -threads 0 -vn -ac 2 pipe:1 -loglevel quiet",
                        UseShellExecute = false,
                        RedirectStandardOutput = true,
                        RedirectStandardError = false,
@@ -91,6 +91,8 @@ namespace NadekoBot.Modules.Music.Classes
                            await Task.Delay(100, cancelToken);
                    }
                    BufferingCompleted = true;
+                   Console.ForegroundColor = ConsoleColor.Green;
+                   Console.WriteLine($"Playing Song {SongInfo.Title}...");
                }
                catch (System.ComponentModel.Win32Exception)
                {
@@ -111,6 +113,7 @@ Check the guides for your platform on how to setup ffmpeg correctly:
                {
                    if (outStream != null)
                        outStream.Dispose();
+                   Console.ForegroundColor = ConsoleColor.Blue;
                    Console.WriteLine($"Buffering done.");
                    if (p != null)
                    {
