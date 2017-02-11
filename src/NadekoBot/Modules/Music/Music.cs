@@ -900,7 +900,18 @@ namespace NadekoBot.Modules.Music
                     {
                         IUserMessage msg;
                         if (paused)
+                        {
                             msg = await mp.OutputTextChannel.SendConfirmAsync("🎵 Music playback **paused**.").ConfigureAwait(false);
+                            {
+                                await Task.Delay(3000).ConfigureAwait(false);
+                                if (paused)
+                                {
+                                    if (MusicPlayers.TryRemove(textCh.Guild.Id, out mp))
+                                        mp.Destroy();
+                                }
+                            }
+                        }
+
                         else
                             msg = await mp.OutputTextChannel.SendConfirmAsync("🎵 Music playback **resumed**.").ConfigureAwait(false);
 
