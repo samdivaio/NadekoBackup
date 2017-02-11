@@ -907,7 +907,8 @@ namespace NadekoBot.Modules.Music
                         else
                         {
                             msg2 = await mp.OutputTextChannel.SendConfirmAsync("🎵 Music playback **resumed**.").ConfigureAwait(false);
-                            msg1.DeleteAfter(10);
+                            if (msg1 != null)
+                                msg1.DeleteAfter(0);
                         }
                         if (msg2 != null)
                             msg2.DeleteAfter(10);
