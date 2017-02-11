@@ -901,17 +901,19 @@ namespace NadekoBot.Modules.Music
                         IUserMessage msg2 = null;
                         if (paused)
                         {
+                            if (msg2 != null)
+                                msg2.DeleteAfter(0);
                             msg1 = await mp.OutputTextChannel.SendConfirmAsync("🎵 Music playback **paused**.").ConfigureAwait(false);
                         }
 
                         else
                         {
-                            msg2 = await mp.OutputTextChannel.SendConfirmAsync("🎵 Music playback **resumed**.").ConfigureAwait(false);
                             if (msg1 != null)
                                 msg1.DeleteAfter(0);
+                            msg2 = await mp.OutputTextChannel.SendConfirmAsync("🎵 Music playback **resumed**.").ConfigureAwait(false);
                         }
-                        if (msg2 != null)
-                            msg2.DeleteAfter(10);
+                        //if (msg2 != null)
+                            //msg2.DeleteAfter(10);
                         await Task.Delay(20000).ConfigureAwait(false);
                         if (msg1 != null)
                         {
