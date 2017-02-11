@@ -72,12 +72,14 @@ namespace NadekoBot.Modules.Music
                         oldState.VoiceChannel.Users.Count == 1))
                 {
                     player.TogglePause();
-                    Task.Delay(10000).ConfigureAwait(false);
-                    if (oldState.VoiceChannel.Users.Count == 1)
                     {
-                        if (MusicPlayers.TryRemove(usr.Guild.Id, out player))
-                            player.Destroy();
-                        player.OutputTextChannel.SendConfirmAsync("🎵 Left voice channel due to **inactivity**.").ConfigureAwait(false);
+                        Task.Delay(5000);
+                        if (oldState.VoiceChannel.Users.Count == 1)
+                        {
+                            if (MusicPlayers.TryRemove(usr.Guild.Id, out player))
+                                player.Destroy();
+                            player.OutputTextChannel.SendConfirmAsync("🎵 Left voice channel due to **inactivity**.");
+                        }
                     }
                     return Task.CompletedTask;
                 }
