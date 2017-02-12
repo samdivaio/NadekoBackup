@@ -846,10 +846,9 @@ namespace NadekoBot.Modules.Music
                 {
                     try
                     {
-                        await Task.Delay(500).ConfigureAwait(false);
                         if (lastFinishedMessage != null)
                             lastFinishedMessage.DeleteAfter(0);
-                        await Task.Delay(500).ConfigureAwait(false);
+
                         lastFinishedMessage = await mp.OutputTextChannel.EmbedAsync(new EmbedBuilder().WithOkColor()
                                                   .WithAuthor(eab => eab.WithName("Finished Song").WithMusicIcon())
                                                   .WithDescription(song.PrettyName)
@@ -883,10 +882,9 @@ namespace NadekoBot.Modules.Music
                         return;
                     try
                     {
-                        await Task.Delay(500).ConfigureAwait(false);
                         if (playingMessage != null)
                             playingMessage.DeleteAfter(0);
-                        await Task.Delay(500).ConfigureAwait(false);
+
                         playingMessage = await mp.OutputTextChannel.EmbedAsync(new EmbedBuilder().WithOkColor()
                                                     .WithAuthor(eab => eab.WithName("Playing Song").WithMusicIcon())
                                                     .WithDescription(song.PrettyName)
