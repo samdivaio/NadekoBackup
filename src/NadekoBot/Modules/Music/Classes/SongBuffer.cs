@@ -122,17 +122,7 @@ Check the guides for your platform on how to setup ffmpeg correctly:
                            p.Kill();
                        }
                        catch { }
-                       //p.Dispose();
-                   }
-                   if (p == null)
-                   {
-                       try
-                       {
-                           p.Dispose();
-                           Console.ForegroundColor = ConsoleColor.Blue;
-                           Console.WriteLine($"Buffering process disposed.");
-                       }
-                       catch { }
+                       p.Dispose();
                    }
                }
            });
