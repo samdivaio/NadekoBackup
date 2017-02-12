@@ -56,7 +56,7 @@ namespace NadekoBot.Modules.Music.Classes
                    p = Process.Start(new ProcessStartInfo
                    {
                        FileName = "ffmpeg",
-                       Arguments = $"-ss {SkipTo} -i {SongInfo.Uri} -f s16le -ar 48000 -threads 0 -vn -ac 2 pipe:1 -loglevel quiet",
+                       Arguments = $"-ss {SkipTo} -i {SongInfo.Uri} -f s16le -ar 48000 -threads 1 -vn -ac 2 pipe:1 -loglevel quiet",
                        UseShellExecute = false,
                        RedirectStandardOutput = true,
                        RedirectStandardError = false,
@@ -117,11 +117,12 @@ Check the guides for your platform on how to setup ffmpeg correctly:
                    Console.WriteLine($"Buffering done.");
                    if (p != null)
                    {
-                       try
+                       p.Kill();
+                       /*try
                        {
                            p.Kill();
                        }
-                       catch { }
+                       catch { }*/
                        p.Dispose();
                    }
                }
