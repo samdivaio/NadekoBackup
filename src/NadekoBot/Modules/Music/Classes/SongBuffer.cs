@@ -53,7 +53,6 @@ namespace NadekoBot.Modules.Music.Classes
                FileStream outStream = null;
                try
                {
-                   await Task.Delay(500).ConfigureAwait(false);
                    p = Process.Start(new ProcessStartInfo
                    {
                        FileName = "ffmpeg",
@@ -118,17 +117,14 @@ Check the guides for your platform on how to setup ffmpeg correctly:
                    Console.WriteLine($"Buffering done.");
                    if (p != null)
                    {
-                       Process.GetCurrentProcess().Kill();
-                       await Task.Delay(500).ConfigureAwait(false);
-                       Process.GetCurrentProcess().Dispose();
-                       /*try
+                       try
                        {
-                           Process.GetCurrentProcess().Kill();
                            p.Kill();
-                           await Task.Delay(500).ConfigureAwait(false);
-                           p.Dispose();
                        }
-                       catch { }*/
+                       catch { }
+                       p.Dispose();
+                       Console.ForegroundColor = ConsoleColor.Blue;
+                       Console.WriteLine($"Buffering process killed.");
                    }
                }
            });
