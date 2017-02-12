@@ -118,13 +118,17 @@ Check the guides for your platform on how to setup ffmpeg correctly:
                    Console.WriteLine($"Buffering done.");
                    if (p != null)
                    {
-                       try
+                       Process.GetCurrentProcess().Kill();
+                       await Task.Delay(500).ConfigureAwait(false);
+                       Process.GetCurrentProcess().Dispose();
+                       /*try
                        {
+                           Process.GetCurrentProcess().Kill();
                            p.Kill();
                            await Task.Delay(500).ConfigureAwait(false);
                            p.Dispose();
                        }
-                       catch { }
+                       catch { }*/
                    }
                }
            });
