@@ -883,7 +883,7 @@ namespace NadekoBot.Modules.Music
                     try
                     {
                         if (playingMessage != null)
-                            playingMessage.DeleteAfter(10);
+                            playingMessage.DeleteAfter(0);
 
                         playingMessage = await mp.OutputTextChannel.EmbedAsync(new EmbedBuilder().WithOkColor()
                                                     .WithAuthor(eab => eab.WithName("Playing Song").WithMusicIcon())
