@@ -222,7 +222,7 @@ namespace NadekoBot.Modules.Music
                 var desc = string.Join("\n", musicPlayer.Playlist
                         .Skip(startAt)
                         .Take(itemsPerPage)
-                        .Select(v => $"`{++number}.` {v.PrettyFullName}"));
+                        .Select(v => $"**{++number}.** {v.PrettyFullName}"));
 
                 if (currentSong != null)
                     desc = $"`🔊` {currentSong.PrettyFullName}\n\n" + desc;
