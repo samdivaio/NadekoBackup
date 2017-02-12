@@ -222,7 +222,7 @@ namespace NadekoBot.Modules.Music
                 var desc = string.Join("\n", musicPlayer.Playlist
                         .Skip(startAt)
                         .Take(itemsPerPage)
-                        .Select(v => $"`{++number}.` {v.PrettyFullName}"));
+                        .Select(v => $"**{++number}.** {v.PrettyFullName}"));
 
                 if (currentSong != null)
                     desc = $"`🔊` {currentSong.PrettyFullName}\n\n" + desc;
@@ -848,6 +848,7 @@ namespace NadekoBot.Modules.Music
                     {
                         if (lastFinishedMessage != null)
                             lastFinishedMessage.DeleteAfter(0);
+                        await Task.Delay(200).ConfigureAwait(false);
 
                         lastFinishedMessage = await mp.OutputTextChannel.EmbedAsync(new EmbedBuilder().WithOkColor()
                                                   .WithAuthor(eab => eab.WithName("Finished Song").WithMusicIcon())
@@ -883,7 +884,8 @@ namespace NadekoBot.Modules.Music
                     try
                     {
                         if (playingMessage != null)
-                            playingMessage.DeleteAfter(10);
+                            playingMessage.DeleteAfter(0);
+                        await Task.Delay(200).ConfigureAwait(false);
 
                         playingMessage = await mp.OutputTextChannel.EmbedAsync(new EmbedBuilder().WithOkColor()
                                                     .WithAuthor(eab => eab.WithName("Playing Song").WithMusicIcon())
@@ -899,24 +901,9 @@ namespace NadekoBot.Modules.Music
                     {
                         IUserMessage msg;
                         if (paused)
-                        {
-                                msg = await mp.OutputTextChannel.SendConfirmAsync("🎵 Music playback **paused**.").ConfigureAwait(false);
-                                msg.DeleteAfter(10);
-                            try
-                            {
-                                await Task.Delay(900000).ConfigureAwait(false);
-                                if (mp.Paused)
-                                {
-                                    if (MusicPlayers.TryRemove(textCh.Guild.Id, out mp))
-                                        mp.Destroy();
-                                    await mp.OutputTextChannel.SendConfirmAsync("🎵 Left voice channel due to inactivity.").ConfigureAwait(false);
-                                }
-                            } catch { }
-                        }
+                            msg = await mp.OutputTextChannel.SendConfirmAsync("🎵 Music playback **paused**.").ConfigureAwait(false);
                         else
-                        {
-                                msg = await mp.OutputTextChannel.SendConfirmAsync("🎵 Music playback **resumed**.").ConfigureAwait(false);
-                        }
+                            msg = await mp.OutputTextChannel.SendConfirmAsync("🎵 Music playback **resumed**.").ConfigureAwait(false);
                         if (msg != null)
                             msg.DeleteAfter(10);
                     }

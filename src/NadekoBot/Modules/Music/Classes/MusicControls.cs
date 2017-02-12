@@ -146,6 +146,11 @@ namespace NadekoBot.Modules.Music.Classes
                         var index = playlist.IndexOf(CurrentSong);
                         if (index != -1)
                             RemoveSongAt(index, true);
+
+                        if (audioClient != null)
+                            try { await audioClient.DisconnectAsync().ConfigureAwait(false); } catch { }
+                        await Task.Delay(100).ConfigureAwait(false);
+                        audioClient = await PlaybackVoiceChannel.ConnectAsync().ConfigureAwait(false);
                         OnStarted(this, CurrentSong);
                         await CurrentSong.Play(audioClient, cancelToken);
 
