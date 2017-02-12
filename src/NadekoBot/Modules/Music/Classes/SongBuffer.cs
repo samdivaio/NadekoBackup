@@ -117,13 +117,14 @@ Check the guides for your platform on how to setup ffmpeg correctly:
                    Console.WriteLine($"Buffering done.");
                    if (p != null)
                    {
+                       p.Dispose();
                        p.Kill();
                        /*try
                        {
                            p.Kill();
                        }
                        catch { }*/
-                       p.Dispose();
+                       //p.Dispose();
                    }
                }
            });
