@@ -79,7 +79,6 @@ namespace NadekoBot.Modules.Games
             private readonly IGuildUser[] _users;
             private readonly int?[,] _state;
             private Phase _phase;
-            private readonly Func<IUserMessage, Task> _playMove;
             int curUserIndex = 0;
             private readonly SemaphoreSlim moveLock;
 
@@ -106,36 +105,6 @@ namespace NadekoBot.Modules.Games
                 _log.Warn($"User {firstUser} created a TicTacToe game.");
                 _phase = Phase.Starting;
                 moveLock = new SemaphoreSlim(1, 1);
-
-                timeoutTimer = new Timer(async (_) =>
-                {
-                    await moveLock.WaitAsync();
-                    try
-                    {
-                        if (_phase == Phase.Ended)
-                            return;
-
-                        _phase = Phase.Ended;
-                        if (_users[1] != null)
-                        {
-                            _winner = _users[curUserIndex ^= 1];
-                            var del = previousMessage?.DeleteAsync();
-                            try
-                            {
-                                await _channel.EmbedAsync(GetEmbed("Time Expired!")).ConfigureAwait(false);
-                                await del.ConfigureAwait(false);
-                            }
-                            catch { }
-                        }
-
-                        OnEnded?.Invoke(this);
-                    }
-                    catch { }
-                    finally
-                    {
-                        moveLock.Release();
-                    }
-                }, null, 15000, Timeout.Infinite);
             }
 
             public string GetState()
@@ -214,7 +183,38 @@ namespace NadekoBot.Modules.Games
 
                 _phase = Phase.Started;
 
+                timeoutTimer = new Timer(async (_) =>
+                {
+                    await moveLock.WaitAsync();
+                    try
+                    {
+                        if (_phase == Phase.Ended)
+                            return;
+
+                        _phase = Phase.Ended;
+                        if (_users[1] != null)
+                        {
+                            _winner = _users[curUserIndex ^= 1];
+                            var del = previousMessage?.DeleteAsync();
+                            try
+                            {
+                                await _channel.EmbedAsync(GetEmbed("Time Expired!")).ConfigureAwait(false);
+                                await del.ConfigureAwait(false);
+                            }
+                            catch { }
+                        }
+
+                        OnEnded?.Invoke(this);
+                    }
+                    catch { }
+                    finally
+                    {
+                        moveLock.Release();
+                    }
+                }, null, 15000, Timeout.Infinite);
+
                 NadekoBot.Client.MessageReceived += Client_MessageReceived;
+
 
                 previousMessage = await _channel.EmbedAsync(GetEmbed("Game Started")).ConfigureAwait(false);
             }
