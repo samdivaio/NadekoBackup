@@ -861,7 +861,7 @@ namespace NadekoBot.Modules.Music
                             await QueueSong(await queuer.Guild.GetCurrentUserAsync(), 
                                 textCh, 
                                 voiceCh, 
-                                relatedVideos[new NadekoRandom().Next(0, relatedVideos.Count)],
+                                relatedVideos[new NadekoRandom().Next(2, relatedVideos.Count)],
                                 true,
                                 musicType).ConfigureAwait(false);
                         }
