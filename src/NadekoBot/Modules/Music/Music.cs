@@ -82,14 +82,16 @@ namespace NadekoBot.Modules.Music
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        public Task Next(int skipCount = 1)
+        //public Task Next(int skipCount = 1)
+        public async Task Next(int skipCount = 1)
         {
             if (skipCount < 1)
-                return Task.CompletedTask;
+                //return Task.CompletedTask;
+                return;
 
             MusicPlayer musicPlayer;
-            
-                if (!MusicPlayers.TryGetValue(Context.Guild.Id, out musicPlayer)) return Task.CompletedTask;
+
+            if (!MusicPlayers.TryGetValue(Context.Guild.Id, out musicPlayer)) return; //return Task.CompletedTask;
             if (musicPlayer.PlaybackVoiceChannel == ((IGuildUser)Context.User).VoiceChannel)
             {
                 while (--skipCount > 0)
@@ -98,14 +100,28 @@ namespace NadekoBot.Modules.Music
                 }
                 musicPlayer.Next();
             }
+            var song = musicPlayer.CurrentSong;
+            if (musicPlayer.Autoplay && musicPlayer.Playlist.Count == 0 && song.SongInfo.ProviderType == MusicType.Normal)
+            {
+                if (musicPlayer.PlaybackVoiceChannel == ((IGuildUser)Context.User).VoiceChannel)
+                {
+                    while (--skipCount > 0)
+                    {
+                        musicPlayer.RemoveSongAt(0);
+                    }
+                    musicPlayer.Next();
+                }
+                await Task.Delay(1000).ConfigureAwait(false);
+                musicPlayer.ToggleAutoplay();
+            }
             if (musicPlayer.Playlist.Count == 0)
             {
-                if (!MusicPlayers.TryGetValue(Context.Guild.Id, out musicPlayer)) return Task.CompletedTask;
+                if (!MusicPlayers.TryGetValue(Context.Guild.Id, out musicPlayer)) return; //return Task.CompletedTask;
                 if (((IGuildUser)Context.User).VoiceChannel == musicPlayer.PlaybackVoiceChannel)
                     if (MusicPlayers.TryRemove(Context.Guild.Id, out musicPlayer))
                         musicPlayer.Destroy();
             }
-            return Task.CompletedTask;
+            return; //Task.CompletedTask;
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -865,10 +881,6 @@ namespace NadekoBot.Modules.Music
                                 relatedVideos[new NadekoRandom().Next(0, relatedVideos.Count)],
                                 true,
                                 musicType).ConfigureAwait(false);
-                            if (!mp.ToggleAutoplay())
-                            {
-                                mp.ToggleAutoplay();
-                            }
                         }
                         else if (mp.Playlist.Count == 0)
                         {
