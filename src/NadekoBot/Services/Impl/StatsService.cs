@@ -113,6 +113,7 @@ namespace NadekoBot.Services.Impl
 
         public Task<string> Print()
         {
+            Console.ForegroundColor = ConsoleColor.Green;
             var curUser = client.CurrentUser;
             return Task.FromResult($@"
 Author: [{Author}] | Library: [{Library}]

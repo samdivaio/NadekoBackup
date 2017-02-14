@@ -88,15 +88,22 @@ namespace NadekoBot.Modules.Music
                 return Task.CompletedTask;
 
             MusicPlayer musicPlayer;
-            if (!MusicPlayers.TryGetValue(Context.Guild.Id, out musicPlayer)) return Task.CompletedTask;
+            
+                if (!MusicPlayers.TryGetValue(Context.Guild.Id, out musicPlayer)) return Task.CompletedTask;
             if (musicPlayer.PlaybackVoiceChannel == ((IGuildUser)Context.User).VoiceChannel)
             {
                 while (--skipCount > 0)
                 {
                     musicPlayer.RemoveSongAt(0);
                 }
+                musicPlayer.NexttoFinish();
                 musicPlayer.Next();
             }
+            /*var song = musicPlayer.CurrentSong;
+            if (musicPlayer.Autoplay && musicPlayer.Playlist.Count == 0 && song.SongInfo.ProviderType == MusicType.Normal)
+            {
+                musicPlayer.NexttoFinish();
+            }*/
             if (musicPlayer.Playlist.Count == 0)
             {
                 if (!MusicPlayers.TryGetValue(Context.Guild.Id, out musicPlayer)) return Task.CompletedTask;
