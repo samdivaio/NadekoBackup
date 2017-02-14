@@ -105,8 +105,9 @@ namespace NadekoBot.Modules.Music
             {
                 await Task.Delay(5000).ConfigureAwait(false);
                 musicPlayer.Next();
-                await Task.Delay(10000).ConfigureAwait(false);
+                await Task.Delay(5000).ConfigureAwait(false);
                 musicPlayer.ToggleAutoplay();
+                return;
             }
             if (musicPlayer.Playlist.Count == 0)
             {
