@@ -96,9 +96,12 @@ namespace NadekoBot.Modules.Music
             var song = musicPlayer.CurrentSong;
             if (musicPlayer.Autoplay && song.SongInfo.ProviderType == MusicType.Normal)
             {
-                await Task.Delay(1000).ConfigureAwait(false);
-                musicPlayer.Next();
-                return;
+                if (musicPlayer.PlaybackVoiceChannel == ((IGuildUser)Context.User).VoiceChannel)
+                {
+                    await Task.Delay(1000).ConfigureAwait(false);
+                    musicPlayer.Next();
+                    return;
+                }
             }
 
             if (musicPlayer.PlaybackVoiceChannel == ((IGuildUser)Context.User).VoiceChannel)
