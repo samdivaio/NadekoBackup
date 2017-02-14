@@ -96,7 +96,12 @@ namespace NadekoBot.Modules.Music
                 {
                     musicPlayer.RemoveSongAt(0);
                 }
+                var song = musicPlayer.CurrentSong;
                 musicPlayer.Next();
+                if (musicPlayer.Autoplay && musicPlayer.Playlist.Count == 0 && song.SongInfo.ProviderType == MusicType.Normal)
+                {
+                    musicPlayer.ToggleAutoplay();
+                }
             }
             if (musicPlayer.Playlist.Count == 0)
             {
