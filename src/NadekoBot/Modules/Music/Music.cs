@@ -109,6 +109,7 @@ namespace NadekoBot.Modules.Music
                     }
                     musicPlayer.Next();
                 }
+                Task.Delay(1000).ConfigureAwait(false);
                 musicPlayer.ToggleAutoplay();
             }
             if (musicPlayer.Playlist.Count == 0)
