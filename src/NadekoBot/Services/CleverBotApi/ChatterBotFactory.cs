@@ -32,7 +32,8 @@ namespace Services.CleverBotApi
 #if GLOBAL_NADEKO
             var url = "http://www.cleverbot.com/webservicemin?uc=3210&botapi=nadekobot";
 #else
-            var url = "http://www.cleverbot.com/webservicemin?uc=777&botapi=chatterbotapi";
+            //var url = "http://www.cleverbot.com/webservicemin?uc=3210&botapi=chatterbotapi";
+            var url = "http://www.cleverbot.com/webservicemin?uc=UseOfficialAPI"; //nolonger need api from cleverbot.com's conversation-social-min.js
 #endif
 
             switch (type)
