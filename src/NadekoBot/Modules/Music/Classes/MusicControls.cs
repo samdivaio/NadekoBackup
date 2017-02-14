@@ -356,20 +356,6 @@ namespace NadekoBot.Modules.Music.Classes
                     SongCancelSource.Cancel();
             });
         }
-        public void NexttoFinish()
-        {
-            actionQueue.Enqueue(async () =>
-            {
-                try
-                {
-                    await CurrentSong.Play(audioClient, cancelToken);
-                }
-                catch (OperationCanceledException)
-                {
-                    OnCompleted(this, CurrentSong);
-                }
-            });
-        }
         //public async Task MoveToVoiceChannel(IVoiceChannel voiceChannel)
         //{
         //    if (audioClient?.ConnectionState != ConnectionState.Connected)
