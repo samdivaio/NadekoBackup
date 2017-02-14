@@ -101,12 +101,10 @@ namespace NadekoBot.Modules.Music
                 musicPlayer.Next();
             }
             var song = musicPlayer.CurrentSong;
-            if (musicPlayer.Autoplay && musicPlayer.Playlist.Count == 0 && song.SongInfo.ProviderType == MusicType.Normal)
+            if (musicPlayer.Autoplay && song.SongInfo.ProviderType == MusicType.Normal)
             {
                 await Task.Delay(5000).ConfigureAwait(false);
                 musicPlayer.Next();
-                await Task.Delay(5000).ConfigureAwait(false);
-                musicPlayer.ToggleAutoplay();
                 return;
             }
             if (musicPlayer.Playlist.Count == 0)
