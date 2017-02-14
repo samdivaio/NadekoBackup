@@ -129,14 +129,23 @@ namespace NadekoBot.Modules.Music
         {
             MusicPlayer musicPlayer;
             if (!MusicPlayers.TryGetValue(Context.Guild.Id, out musicPlayer)) return Task.CompletedTask;
+            var song = musicPlayer.CurrentSong; ///toggle ap before destroying
+            if (musicPlayer.Autoplay && song.SongInfo.ProviderType == MusicType.Normal)
+            {
+                if (musicPlayer.PlaybackVoiceChannel == ((IGuildUser)Context.User).VoiceChannel)
+                {
+                    musicPlayer.ToggleAutoplay();
+                }
+            }
             if (((IGuildUser)Context.User).VoiceChannel == musicPlayer.PlaybackVoiceChannel)
-                if (MusicPlayers.TryRemove(Context.Guild.Id, out musicPlayer))
-                    musicPlayer.Destroy();
+                if (MusicPlayers.TryRemove(Context.Guild.Id, out musicPlayer))  
+            musicPlayer.Destroy();
             /*if (((IGuildUser)Context.User).VoiceChannel == musicPlayer.PlaybackVoiceChannel)
             {
                 musicPlayer.Autoplay = false;
                 musicPlayer.Stop();
             }*/
+            
             return Task.CompletedTask;
         }
 
@@ -146,6 +155,14 @@ namespace NadekoBot.Modules.Music
         {
             MusicPlayer musicPlayer;
             if (!MusicPlayers.TryGetValue(Context.Guild.Id, out musicPlayer)) return Task.CompletedTask;
+            var song = musicPlayer.CurrentSong;
+            if (musicPlayer.Autoplay && song.SongInfo.ProviderType == MusicType.Normal)
+            {
+                if (musicPlayer.PlaybackVoiceChannel == ((IGuildUser)Context.User).VoiceChannel)
+                {
+                    musicPlayer.ToggleAutoplay();
+                }
+            }
             if (((IGuildUser)Context.User).VoiceChannel == musicPlayer.PlaybackVoiceChannel)
                 if (MusicPlayers.TryRemove(Context.Guild.Id, out musicPlayer))
                     musicPlayer.Destroy();
