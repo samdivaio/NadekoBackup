@@ -96,12 +96,20 @@ namespace NadekoBot.Modules.Music
                 {
                     musicPlayer.RemoveSongAt(0);
                 }
-                var song = musicPlayer.CurrentSong;
                 musicPlayer.Next();
-                if (musicPlayer.Autoplay && musicPlayer.Playlist.Count == 0 && song.SongInfo.ProviderType == MusicType.Normal)
+            }
+            var song = musicPlayer.CurrentSong;
+            if (musicPlayer.Autoplay && musicPlayer.Playlist.Count == 0 && song.SongInfo.ProviderType == MusicType.Normal)
+            {
+                if (musicPlayer.PlaybackVoiceChannel == ((IGuildUser)Context.User).VoiceChannel)
                 {
-                    musicPlayer.ToggleAutoplay();
+                    while (--skipCount > 0)
+                    {
+                        musicPlayer.RemoveSongAt(0);
+                    }
+                    musicPlayer.Next();
                 }
+                musicPlayer.ToggleAutoplay();
             }
             if (musicPlayer.Playlist.Count == 0)
             {
