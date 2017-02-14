@@ -116,8 +116,8 @@ namespace NadekoBot.Services.Impl
             Console.ForegroundColor = ConsoleColor.Green;
             var curUser = client.CurrentUser;
             return Task.FromResult($@"
-Author: [{Author}] | Library: [{Library}]
-Bot Version: [{BotVersion}]
+Author: {Author} | Library: {Library}
+Bot Version: {BotVersion}
 Bot ID: {curUser.Id}
 Owner ID(s): {string.Join(", ", NadekoBot.Credentials.OwnerIds)}
 Uptime: {GetUptimeString()}

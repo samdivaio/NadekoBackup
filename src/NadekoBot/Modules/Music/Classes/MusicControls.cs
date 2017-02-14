@@ -201,7 +201,6 @@ namespace NadekoBot.Modules.Music.Classes
             {
                 Paused = false;
                 SongCancelSource.Cancel();
-                OnCompleted(this, CurrentSong);
             });
         }
 
@@ -361,6 +360,7 @@ namespace NadekoBot.Modules.Music.Classes
         {
             actionQueue.Enqueue(async () =>
             {
+                Paused = false;
                 try
                 {
                     await CurrentSong.Play(audioClient, cancelToken);
