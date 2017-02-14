@@ -92,6 +92,15 @@ namespace NadekoBot.Modules.Music
             MusicPlayer musicPlayer;
 
             if (!MusicPlayers.TryGetValue(Context.Guild.Id, out musicPlayer)) return; //return Task.CompletedTask;
+
+            var song = musicPlayer.CurrentSong;
+            if (musicPlayer.Autoplay && song.SongInfo.ProviderType == MusicType.Normal)
+            {
+                await Task.Delay(5000).ConfigureAwait(false);
+                musicPlayer.Next();
+                return;
+            }
+
             if (musicPlayer.PlaybackVoiceChannel == ((IGuildUser)Context.User).VoiceChannel)
             {
                 while (--skipCount > 0)
@@ -100,13 +109,7 @@ namespace NadekoBot.Modules.Music
                 }
                 musicPlayer.Next();
             }
-            var song = musicPlayer.CurrentSong;
-            if (musicPlayer.Autoplay && song.SongInfo.ProviderType == MusicType.Normal)
-            {
-                await Task.Delay(5000).ConfigureAwait(false);
-                musicPlayer.Next();
-                return;
-            }
+            
             if (musicPlayer.Playlist.Count == 0)
             {
                 if (!MusicPlayers.TryGetValue(Context.Guild.Id, out musicPlayer)) return; //return Task.CompletedTask;
