@@ -105,8 +105,8 @@ namespace NadekoBot.Modules.Music
                 {
                     musicPlayer.RemoveSongAt(0);
                 }
-                musicPlayer.Next();
                 musicPlayer.NexttoFinish();
+                musicPlayer.Next();
             }
             if (musicPlayer.Playlist.Count == 0)
             {
