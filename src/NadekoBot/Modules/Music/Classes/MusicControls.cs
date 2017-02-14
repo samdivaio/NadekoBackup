@@ -201,6 +201,7 @@ namespace NadekoBot.Modules.Music.Classes
             {
                 Paused = false;
                 SongCancelSource.Cancel();
+                OnCompleted(this, CurrentSong);
             });
         }
 
