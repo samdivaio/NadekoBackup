@@ -360,7 +360,6 @@ namespace NadekoBot.Modules.Music.Classes
         {
             actionQueue.Enqueue(async () =>
             {
-                Paused = false;
                 try
                 {
                     await CurrentSong.Play(audioClient, cancelToken);
