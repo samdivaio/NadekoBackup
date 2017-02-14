@@ -101,14 +101,7 @@ namespace NadekoBot.Modules.Music
             var song = musicPlayer.CurrentSong;
             if (musicPlayer.Autoplay && musicPlayer.Playlist.Count == 0 && song.SongInfo.ProviderType == MusicType.Normal)
             {
-                if (musicPlayer.PlaybackVoiceChannel == ((IGuildUser)Context.User).VoiceChannel)
-                {
-                    while (--skipCount > 0)
-                    {
-                        musicPlayer.RemoveSongAt(0);
-                    }
-                    musicPlayer.Next();
-                }
+                musicPlayer.Next();
                 Task.Delay(5000).ConfigureAwait(false);
                 musicPlayer.ToggleAutoplay();
             }
