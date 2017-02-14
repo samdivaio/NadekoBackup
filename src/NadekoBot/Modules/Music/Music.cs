@@ -98,13 +98,6 @@ namespace NadekoBot.Modules.Music
                 }
                 musicPlayer.Next();
             }
-            var song = musicPlayer.CurrentSong;
-            if (musicPlayer.Autoplay && musicPlayer.Playlist.Count == 0 && song.SongInfo.ProviderType == MusicType.Normal)
-            {
-                musicPlayer.Next();
-                Task.Delay(5000).ConfigureAwait(false);
-                musicPlayer.ToggleAutoplay();
-            }
             if (musicPlayer.Playlist.Count == 0)
             {
                 if (!MusicPlayers.TryGetValue(Context.Guild.Id, out musicPlayer)) return Task.CompletedTask;
@@ -872,6 +865,10 @@ namespace NadekoBot.Modules.Music
                                 relatedVideos[new NadekoRandom().Next(0, relatedVideos.Count)],
                                 true,
                                 musicType).ConfigureAwait(false);
+                            if (!mp.ToggleAutoplay())
+                            {
+                                mp.ToggleAutoplay();
+                            }
                         }
                         else if (mp.Playlist.Count == 0)
                         {
