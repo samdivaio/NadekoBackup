@@ -159,7 +159,7 @@ namespace NadekoBot.Modules.Music.Classes
                         {
                             await CurrentSong.Play(audioClient, cancelToken);
                         }
-                        catch(OperationCanceledException)
+                        catch (OperationCanceledException)
                         {
                             OnCompleted(this, CurrentSong);
                         }*/
@@ -171,7 +171,10 @@ namespace NadekoBot.Modules.Music.Classes
                             AddSong(CurrentSong, 0);
 
                     }
-                    catch (OperationCanceledException) { }
+                    catch (OperationCanceledException)
+                    {
+                        OnCompleted(this, CurrentSong);
+                    }
                     catch (Exception ex)
                     {
                         Console.WriteLine("Music thread almost crashed.");
