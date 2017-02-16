@@ -202,10 +202,16 @@ namespace NadekoBot.Modules.Music.Classes
 
             t.Start();
             Console.WriteLine("thread start2...");
-            if (audioClient != null)
-                try { audioClient.DisconnectAsync().ConfigureAwait(false); } catch { }
-            Task.Delay(100).ConfigureAwait(false);
-            PlaybackVoiceChannel.ConnectAsync().ConfigureAwait(false);
+            actionQueue.Enqueue(async () =>
+            {
+                if (audioClient?.ConnectionState != ConnectionState.Connected)
+                {
+                    if (audioClient != null)
+                        try { await audioClient.DisconnectAsync().ConfigureAwait(false); } catch { }
+                    audioClient = await PlaybackVoiceChannel.ConnectAsync().ConfigureAwait(false);
+                    Console.WriteLine("Music connect used.");
+                }
+            });
         }
 
         public void Next()
