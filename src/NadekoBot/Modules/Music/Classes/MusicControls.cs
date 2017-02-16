@@ -130,13 +130,13 @@ namespace NadekoBot.Modules.Music.Classes
                 {
                     try
                     {
-                        if (audioClient?.ConnectionState != ConnectionState.Connected)
+                        /*if (audioClient?.ConnectionState != ConnectionState.Connected)
                         {
                             if (audioClient != null)
                                 try { await audioClient.DisconnectAsync().ConfigureAwait(false); } catch { }
                             audioClient = await PlaybackVoiceChannel.ConnectAsync().ConfigureAwait(false);
                             continue;
-                        }
+                        }*/
 
                         CurrentSong = GetNextSong();
 
@@ -179,8 +179,8 @@ namespace NadekoBot.Modules.Music.Classes
                     {
                         Console.WriteLine("Music thread almost crashed.");
                         Console.WriteLine(ex);
-                        await Task.Delay(3000).ConfigureAwait(false);
-                        return;
+                        await Task.Delay(15000).ConfigureAwait(false); //sends error every 15s instead of 3s
+                        //return; //stops from looping
                     }
                     finally
                     {
@@ -191,7 +191,7 @@ namespace NadekoBot.Modules.Music.Classes
                         SongCancelSource = new CancellationTokenSource();
                         cancelToken = SongCancelSource.Token;
                         CurrentSong = null;
-                        await Task.Delay(300).ConfigureAwait(false);
+                        await Task.Delay(100).ConfigureAwait(false); //lowered from 0.3s to 0.1s
                     }
                 }
             }));
