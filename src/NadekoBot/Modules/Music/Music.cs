@@ -877,7 +877,6 @@ namespace NadekoBot.Modules.Music
                     vol = uow.GuildConfigs.For(textCh.Guild.Id, set => set).DefaultMusicVolume;
                 }
                 var mp = new MusicPlayer(voiceCh, textCh, vol);
-                mp.Connect();
                 IUserMessage playingMessage = null;
                 IUserMessage lastFinishedMessage = null;
                 mp.OnCompleted += async (s, song) =>
@@ -977,6 +976,7 @@ namespace NadekoBot.Modules.Music
                     throw new SongNotFoundException();
 
                 musicPlayer.AddSong(resolvedSong, queuer.Username);
+                musicPlayer.Connect();
             }
             catch (PlaylistFullException)
             {
