@@ -115,7 +115,8 @@ namespace NadekoBot.Modules.Music.Classes
                         {
                             Console.WriteLine("a1...");
                             await Task.Delay(100).ConfigureAwait(false);
-                            audioClient = await PlaybackVoiceChannel.ConnectAsync().ConfigureAwait(false);
+                            if (audioClient?.ConnectionState != ConnectionState.Connected)
+                                audioClient = await PlaybackVoiceChannel.ConnectAsync().ConfigureAwait(false);
                         }
                     }
                 }
