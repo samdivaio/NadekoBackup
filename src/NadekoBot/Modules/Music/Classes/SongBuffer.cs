@@ -91,7 +91,6 @@ namespace NadekoBot.Modules.Music.Classes
                            await Task.Delay(100, cancelToken);
                    }
                    BufferingCompleted = true;
-                   Console.ForegroundColor = ConsoleColor.DarkGreen;
                    Console.WriteLine($"Buffering {SongInfo.Title}...");
                }
                catch (System.ComponentModel.Win32Exception)
@@ -113,7 +112,6 @@ Check the guides for your platform on how to setup ffmpeg correctly:
                {
                    if (outStream != null)
                        outStream.Dispose();
-                   Console.ForegroundColor = ConsoleColor.DarkBlue;
                    Console.WriteLine($"Buffering done.");
                    if (p != null)
                    {
