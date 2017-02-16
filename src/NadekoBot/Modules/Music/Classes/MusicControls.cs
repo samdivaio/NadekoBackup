@@ -113,6 +113,7 @@ namespace NadekoBot.Modules.Music.Classes
                         }
                         finally
                         {
+                            Console.WriteLine("a1...");
                             await Task.Delay(100).ConfigureAwait(false);
                         }
                     }
@@ -123,7 +124,7 @@ namespace NadekoBot.Modules.Music.Classes
                     Console.WriteLine(ex);
                 }
             }).ConfigureAwait(false);
-
+            Console.WriteLine("starting thread...");
             var t = new Thread(new ThreadStart(async () =>
             {
                 while (!Destroyed)
@@ -173,6 +174,7 @@ namespace NadekoBot.Modules.Music.Classes
                     }
                     catch (OperationCanceledException)
                     {
+                        Console.WriteLine("Music finished playing.");
                         OnCompleted(this, CurrentSong);
                     }
                     catch (Exception ex)
@@ -187,6 +189,7 @@ namespace NadekoBot.Modules.Music.Classes
                         {
                             SongCancelSource.Cancel();
                         }
+                        Console.WriteLine("Music at finally.");
                         SongCancelSource = new CancellationTokenSource();
                         cancelToken = SongCancelSource.Token;
                         CurrentSong = null;
@@ -196,6 +199,7 @@ namespace NadekoBot.Modules.Music.Classes
             }));
 
             t.Start();
+            Console.WriteLine("thread start2...");
         }
 
         public void Next()
