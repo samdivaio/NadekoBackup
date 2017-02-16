@@ -130,13 +130,15 @@ namespace NadekoBot.Modules.Music.Classes
                 {
                     try
                     {
-                        if (audioClient?.ConnectionState != ConnectionState.Connected)
+                        /*if (audioClient?.ConnectionState != ConnectionState.Connected)
                         {
                             if (audioClient != null)
                                 try { await audioClient.DisconnectAsync().ConfigureAwait(false); } catch { }
                             audioClient = await PlaybackVoiceChannel.ConnectAsync().ConfigureAwait(false);
                             continue;
-                        }
+                        }*/
+
+                        //added below to fix cpu/network issue.
 
                         CurrentSong = GetNextSong();
 
@@ -179,7 +181,7 @@ namespace NadekoBot.Modules.Music.Classes
                     {
                         Console.WriteLine("Music thread almost crashed.");
                         Console.WriteLine(ex);
-                        await Task.Delay(3000).ConfigureAwait(false);
+                        await Task.Delay(15000).ConfigureAwait(false); //loops 15s from 3s
                     }
                     finally
                     {
