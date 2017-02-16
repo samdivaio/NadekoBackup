@@ -867,6 +867,8 @@ namespace NadekoBot.Modules.Music
             if (string.IsNullOrWhiteSpace(query) || query.Length < 3)
                 throw new ArgumentException("💢 Invalid query for queue song.", nameof(query));
 
+            
+
             var musicPlayer = MusicPlayers.GetOrAdd(textCh.Guild.Id, server =>
             {
                 float vol = 1;// SpecificConfigurations.Default.Of(server.Id).DefaultMusicVolume;
@@ -875,6 +877,7 @@ namespace NadekoBot.Modules.Music
                     vol = uow.GuildConfigs.For(textCh.Guild.Id, set => set).DefaultMusicVolume;
                 }
                 var mp = new MusicPlayer(voiceCh, textCh, vol);
+                mp.Connect();
                 IUserMessage playingMessage = null;
                 IUserMessage lastFinishedMessage = null;
                 mp.OnCompleted += async (s, song) =>

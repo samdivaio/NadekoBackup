@@ -113,7 +113,7 @@ namespace NadekoBot.Modules.Music.Classes
                         }
                         finally
                         {
-                            Console.WriteLine("a1...");
+                            //Console.WriteLine("a1...");
                             await Task.Delay(100).ConfigureAwait(false);
                         }
                     }
@@ -368,7 +368,7 @@ namespace NadekoBot.Modules.Music.Classes
         {
             actionQueue.Enqueue(async () =>
             {
-                //if (audioClient?.ConnectionState != ConnectionState.Connected)
+                if (audioClient?.ConnectionState != ConnectionState.Connected)
                 {
                     //if (audioClient != null)
                         //try { await audioClient.DisconnectAsync().ConfigureAwait(false); } catch { }
