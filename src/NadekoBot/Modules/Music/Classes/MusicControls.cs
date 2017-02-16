@@ -113,6 +113,7 @@ namespace NadekoBot.Modules.Music.Classes
                         }
                         finally
                         {
+                            audioClient = await PlaybackVoiceChannel.ConnectAsync().ConfigureAwait(false);
                             await Task.Delay(100).ConfigureAwait(false);
                         }
                     }
@@ -180,6 +181,7 @@ namespace NadekoBot.Modules.Music.Classes
                         Console.WriteLine("Music thread almost crashed.");
                         Console.WriteLine(ex);
                         await Task.Delay(3000).ConfigureAwait(false);
+                        return;
                     }
                     finally
                     {
