@@ -153,6 +153,7 @@ namespace NadekoBot.Modules.Music.Classes
                         await Task.Delay(100).ConfigureAwait(false);
                         audioClient = await PlaybackVoiceChannel.ConnectAsync().ConfigureAwait(false);
                         OnStarted(this, CurrentSong);
+                        Console.WriteLine("reached on started.");
                         await CurrentSong.Play(audioClient, cancelToken);
 
                         OnCompleted(this, CurrentSong);

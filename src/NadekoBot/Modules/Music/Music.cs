@@ -154,20 +154,18 @@ namespace NadekoBot.Modules.Music
         public Task Destroy()
         {
             MusicPlayer musicPlayer;
-            //if (!MusicPlayers.TryGetValue(Context.Guild.Id, out musicPlayer)) return Task.CompletedTask;
-            /*var song = musicPlayer.CurrentSong;
+            if (!MusicPlayers.TryGetValue(Context.Guild.Id, out musicPlayer)) return Task.CompletedTask;
+            var song = musicPlayer.CurrentSong;
             if (musicPlayer.Autoplay && song.SongInfo.ProviderType == MusicType.Normal)
             {
                 if (musicPlayer.PlaybackVoiceChannel == ((IGuildUser)Context.User).VoiceChannel)
                 {
                     musicPlayer.ToggleAutoplay();
                 }
-            }*/
-            //if (((IGuildUser)Context.User).VoiceChannel == musicPlayer.PlaybackVoiceChannel)
-            //if (MusicPlayers.TryRemove(Context.Guild.Id, out musicPlayer))
-            //musicPlayer.Destroy();
-            if (!MusicPlayers.TryGetValue(Context.Guild.Id, out musicPlayer))
-                musicPlayer.Connect();
+            }
+            if (((IGuildUser)Context.User).VoiceChannel == musicPlayer.PlaybackVoiceChannel)
+            if (MusicPlayers.TryRemove(Context.Guild.Id, out musicPlayer))
+            musicPlayer.Destroy();
 
             return Task.CompletedTask;
 
@@ -866,9 +864,6 @@ namespace NadekoBot.Modules.Music
             }
             if (string.IsNullOrWhiteSpace(query) || query.Length < 3)
                 throw new ArgumentException("💢 Invalid query for queue song.", nameof(query));
-
-            
-
             var musicPlayer = MusicPlayers.GetOrAdd(textCh.Guild.Id, server =>
             {
                 float vol = 1;// SpecificConfigurations.Default.Of(server.Id).DefaultMusicVolume;
@@ -976,7 +971,6 @@ namespace NadekoBot.Modules.Music
                     throw new SongNotFoundException();
 
                 musicPlayer.AddSong(resolvedSong, queuer.Username);
-                musicPlayer.Connect();
             }
             catch (PlaylistFullException)
             {
