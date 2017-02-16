@@ -163,8 +163,8 @@ namespace NadekoBot.Modules.Music
                     musicPlayer.ToggleAutoplay();
                 }
             }*/
-            if (((IGuildUser)Context.User).VoiceChannel == musicPlayer.PlaybackVoiceChannel)
-                if (MusicPlayers.TryRemove(Context.Guild.Id, out musicPlayer))
+            //if (((IGuildUser)Context.User).VoiceChannel == musicPlayer.PlaybackVoiceChannel)
+                //if (MusicPlayers.TryRemove(Context.Guild.Id, out musicPlayer))
                     //musicPlayer.Destroy();
             musicPlayer.Connect();
 

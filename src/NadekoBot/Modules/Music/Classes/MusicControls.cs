@@ -368,10 +368,10 @@ namespace NadekoBot.Modules.Music.Classes
         {
             actionQueue.Enqueue(async () =>
             {
-                if (audioClient?.ConnectionState != ConnectionState.Connected)
+                //if (audioClient?.ConnectionState != ConnectionState.Connected)
                 {
-                    if (audioClient != null)
-                        try { await audioClient.DisconnectAsync().ConfigureAwait(false); } catch { }
+                    //if (audioClient != null)
+                        //try { await audioClient.DisconnectAsync().ConfigureAwait(false); } catch { }
                     audioClient = await PlaybackVoiceChannel.ConnectAsync().ConfigureAwait(false);
                 }
             });
