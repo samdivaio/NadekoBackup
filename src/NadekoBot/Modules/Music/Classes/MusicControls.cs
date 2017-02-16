@@ -373,6 +373,7 @@ namespace NadekoBot.Modules.Music.Classes
                     //if (audioClient != null)
                         //try { await audioClient.DisconnectAsync().ConfigureAwait(false); } catch { }
                     audioClient = await PlaybackVoiceChannel.ConnectAsync().ConfigureAwait(false);
+                    Console.WriteLine("Music connect used.");
                 }
             });
         }
