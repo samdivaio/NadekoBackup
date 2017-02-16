@@ -113,7 +113,6 @@ namespace NadekoBot.Modules.Music.Classes
                         }
                         finally
                         {
-                            //Console.WriteLine("a1...");
                             await Task.Delay(100).ConfigureAwait(false);
                         }
                     }
@@ -121,23 +120,23 @@ namespace NadekoBot.Modules.Music.Classes
                 catch (Exception ex)
                 {
                     Console.WriteLine("Action queue crashed");
-                    //Console.WriteLine(ex);
+                    Console.WriteLine(ex);
                 }
             }).ConfigureAwait(false);
-            Console.WriteLine("starting thread...");
+
             var t = new Thread(new ThreadStart(async () =>
             {
                 while (!Destroyed)
                 {
                     try
                     {
-                        /*if (audioClient?.ConnectionState != ConnectionState.Connected)
+                        if (audioClient?.ConnectionState != ConnectionState.Connected)
                         {
                             if (audioClient != null)
                                 try { await audioClient.DisconnectAsync().ConfigureAwait(false); } catch { }
                             audioClient = await PlaybackVoiceChannel.ConnectAsync().ConfigureAwait(false);
                             continue;
-                        }*/
+                        }
 
                         CurrentSong = GetNextSong();
 
@@ -153,7 +152,6 @@ namespace NadekoBot.Modules.Music.Classes
                         await Task.Delay(100).ConfigureAwait(false);
                         audioClient = await PlaybackVoiceChannel.ConnectAsync().ConfigureAwait(false);
                         OnStarted(this, CurrentSong);
-                        Console.WriteLine("reached on started.");
                         await CurrentSong.Play(audioClient, cancelToken);
 
                         OnCompleted(this, CurrentSong);
@@ -175,15 +173,13 @@ namespace NadekoBot.Modules.Music.Classes
                     }
                     catch (OperationCanceledException)
                     {
-                        Console.WriteLine("Music finished playing.");
                         OnCompleted(this, CurrentSong);
                     }
                     catch (Exception ex)
                     {
                         Console.WriteLine("Music thread almost crashed.");
-                        //Console.WriteLine(ex);
+                        Console.WriteLine(ex);
                         await Task.Delay(3000).ConfigureAwait(false);
-                        
                     }
                     finally
                     {
@@ -191,7 +187,6 @@ namespace NadekoBot.Modules.Music.Classes
                         {
                             SongCancelSource.Cancel();
                         }
-                        Console.WriteLine("Music at finally.");
                         SongCancelSource = new CancellationTokenSource();
                         cancelToken = SongCancelSource.Token;
                         CurrentSong = null;
@@ -201,18 +196,6 @@ namespace NadekoBot.Modules.Music.Classes
             }));
 
             t.Start();
-            Console.WriteLine("thread start2...");
-            actionQueue.Enqueue(async () =>
-            {
-                if (audioClient?.ConnectionState != ConnectionState.Connected)
-                {
-                    if (audioClient != null)
-                        try { await audioClient.DisconnectAsync().ConfigureAwait(false); } catch { }
-                    await Task.Delay(1000).ConfigureAwait(false);
-                    audioClient = await PlaybackVoiceChannel.ConnectAsync().ConfigureAwait(false);
-                    Console.WriteLine("Music connect used.");
-                }
-            });
         }
 
         public void Next()
@@ -374,19 +357,6 @@ namespace NadekoBot.Modules.Music.Classes
                 try { await audioClient.DisconnectAsync(); } catch { }
                 if (!SongCancelSource.IsCancellationRequested)
                     SongCancelSource.Cancel();
-            });
-        }
-        public void Connect()
-        {
-            actionQueue.Enqueue(async () =>
-            {
-                if (audioClient?.ConnectionState != ConnectionState.Connected)
-                {
-                    if (audioClient != null)
-                        try { await audioClient.DisconnectAsync().ConfigureAwait(false); } catch { }
-                    audioClient = await PlaybackVoiceChannel.ConnectAsync().ConfigureAwait(false);
-                    Console.WriteLine("Music connect used.");
-                }
             });
         }
         //public async Task MoveToVoiceChannel(IVoiceChannel voiceChannel)
