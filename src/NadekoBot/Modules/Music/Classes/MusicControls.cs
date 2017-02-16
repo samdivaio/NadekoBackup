@@ -121,7 +121,7 @@ namespace NadekoBot.Modules.Music.Classes
                 catch (Exception ex)
                 {
                     Console.WriteLine("Action queue crashed");
-                    Console.WriteLine(ex);
+                    //Console.WriteLine(ex);
                 }
             }).ConfigureAwait(false);
             Console.WriteLine("starting thread...");
@@ -181,7 +181,7 @@ namespace NadekoBot.Modules.Music.Classes
                     catch (Exception ex)
                     {
                         Console.WriteLine("Music thread almost crashed.");
-                        Console.WriteLine(ex);
+                        //Console.WriteLine(ex);
                         await Task.Delay(3000).ConfigureAwait(false);
                         
                     }
@@ -202,6 +202,10 @@ namespace NadekoBot.Modules.Music.Classes
 
             t.Start();
             Console.WriteLine("thread start2...");
+            if (audioClient != null)
+                try { audioClient.DisconnectAsync().ConfigureAwait(false); } catch { }
+            Task.Delay(100).ConfigureAwait(false);
+            PlaybackVoiceChannel.ConnectAsync().ConfigureAwait(false);
         }
 
         public void Next()
