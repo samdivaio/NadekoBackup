@@ -154,7 +154,7 @@ namespace NadekoBot.Modules.Music
         public Task Destroy()
         {
             MusicPlayer musicPlayer;
-            if (!MusicPlayers.TryGetValue(Context.Guild.Id, out musicPlayer)) return Task.CompletedTask;
+            //if (!MusicPlayers.TryGetValue(Context.Guild.Id, out musicPlayer)) return Task.CompletedTask;
             /*var song = musicPlayer.CurrentSong;
             if (musicPlayer.Autoplay && song.SongInfo.ProviderType == MusicType.Normal)
             {
@@ -164,9 +164,10 @@ namespace NadekoBot.Modules.Music
                 }
             }*/
             //if (((IGuildUser)Context.User).VoiceChannel == musicPlayer.PlaybackVoiceChannel)
-                //if (MusicPlayers.TryRemove(Context.Guild.Id, out musicPlayer))
-                    //musicPlayer.Destroy();
-            musicPlayer.Connect();
+            //if (MusicPlayers.TryRemove(Context.Guild.Id, out musicPlayer))
+            //musicPlayer.Destroy();
+            if (!MusicPlayers.TryGetValue(Context.Guild.Id, out musicPlayer))
+                musicPlayer.Connect();
 
             return Task.CompletedTask;
 
